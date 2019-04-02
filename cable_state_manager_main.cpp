@@ -12,7 +12,7 @@ int main(int argc, char**)
 	std::vector<std::unique_ptr<phosphor::cable::manager::Cable>> cables;
 	int cableNum = 0;
 	
-    for(int i = 0; i < 12; ++i) {
+    for(int i = 0; i < 5; ++i) {
 		++cableNum;
 		std::string objPath = objPathInst + std::to_string(cableNum);		
 		cables.emplace_back(std::make_unique<phosphor::cable::manager::Cable>(bus, objPath.c_str(), cableNum));
