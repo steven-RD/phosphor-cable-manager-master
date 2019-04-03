@@ -14,7 +14,7 @@ int main(int argc, char**)
 	
     for(int i = 0; i < 5; ++i) {
 		++cableNum;
-		std::string objPath = objPathInst + std::to_string(cableNum);		
+		std::string objPath = objPathInst + "/cable" +std::to_string(cableNum);		
 		cables.emplace_back(std::make_unique<phosphor::cable::manager::Cable>(bus, objPath.c_str(), cableNum));
 	}
 
