@@ -13,21 +13,7 @@ namespace manager
 
 // When you see server:: you know we're referencing our base class
 namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
-	
-	Cable::~Cable() {
-		Close();
-	}
-	
-	int Cable::Open() {
-		fp = popen("i2cusi -c cbinfo", "r");
-		return  fp != NULL ? 0 : -1;
-	}
-	
-	void Cable::Close(){
-		if(fp != NULL)
-			pclose(fp);
-		fp = NULL;
-	}
+
 	
 	uint32_t Cable::GetCableData(const std::string& cableName) {
 
@@ -35,6 +21,8 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 		std::pair<std::string, uint32_t> oneCable;
 		std::map<std::string, uint32_t> cableInfo;
 		std::map<std::string, uint32_t>::iterator iter; 
+		
+		FILE* fp = popen("i2cusi -c cbinfo", "r");
 		
 		while(NULL != fgets(line, sizeof(line), fp)) {
 			
@@ -48,17 +36,20 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 		if((iter = cableInfo.find(cableName)) == cableInfo.end()) {
 			std::cout << "not find" << cableName << std::endl;
 			return 0;
-		} 
+		}
+		
+		if(fp != NULL)
+			pclose(fp);
 		
 		return iter->second;
 	}
 	
 	
-	std::pair<std::string, int> Cable::Split(std::string& info, const std::string& pattern) {		
+	std::pair<std::string, uint32_t> Cable::Split(std::string& info, const std::string& pattern) {		
 	
 		std::string name;
-		int value = 0;
-		std::pair<std::string, int> cableInfo;
+		uint32_t value = 0;
+		std::pair<std::string, uint32_t> cableInfo;
 		
 		if(!info.empty()) {	
 			char * strc = new char[strlen(info.c_str()) + 1];
@@ -85,26 +76,25 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 	uint32_t Cable::cableType() {
 		
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
-		std::string cableName = "CAB" + slotNum;
+		std::string cableName = "CAB" + std::to_string(slotNum);
 		uint32_t cableData =  GetCableData(cableName);
-		
-		
+				
 		return  (cableData & 0x07);
 	}
 
 	uint32_t Cable::present() {
 
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
-		std::string cableName = "CAB" + slotNum;
+		std::string cableName = "CAB" + std::to_string(slotNum);
 		uint32_t cableData = GetCableData(cableName);		
 		
 		return  ((cableData >> 7) & 0x01);
 	}
 	
-	uint32_t Cable::linkSpeed() {
+	uint32_t Cable::linkStatus() {
 		
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
-		std::string cableName = "CAB" + slotNum;
+		std::string cableName = "CAB" + std::to_string(slotNum);
 		uint32_t cableData = GetCableData(cableName);
 		
 		return  ((cableData >> 8) & 0x07);
@@ -113,7 +103,7 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 	uint32_t Cable::linkWidth() {
 		
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
-		std::string cableName = "CAB" + slotNum;
+		std::string cableName = "CAB" + std::to_string(slotNum);
 		uint32_t cableData =  GetCableData(cableName);		
 		
 		return  ((cableData >> 11) & 0x0f);
@@ -122,7 +112,7 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 	uint32_t Cable::linkActive() {
 		
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
-		std::string cableName = "CAB" + slotNum;
+		std::string cableName = "CAB" + std::to_string(slotNum);
 		uint32_t cableData =  GetCableData(cableName);
 		
 		return  ((cableData >> 15) & 0x01);
@@ -131,7 +121,7 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 	uint32_t Cable::partitionID() {
 		
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
-		std::string cableName = "CAB" + slotNum;
+		std::string cableName = "CAB" + std::to_string(slotNum);
 		uint32_t cableData = GetCableData(cableName);
 		
 		return  ((cableData >> 16) & 0x0f);
@@ -140,7 +130,7 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 	uint32_t Cable::invalid() {
 		
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
-		std::string cableName = "CAB" + slotNum;
+		std::string cableName = "CAB" + std::to_string(slotNum);
 		uint32_t cableData = GetCableData(cableName);
 		
 		return  ((cableData >> 20) & 0x0f);
@@ -149,7 +139,7 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 	uint32_t Cable::uspDsp()  {
 		
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
-		std::string cableName = "CAB" + slotNum;
+		std::string cableName = "CAB" + std::to_string(slotNum);
 		uint32_t cableData = GetCableData(cableName);
 
 		return  ((cableData >> 24) & 0x0f);
@@ -158,7 +148,7 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 	uint32_t Cable::status() {
 
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
-		std::string cableName = "CAB" + slotNum;
+		std::string cableName = "CAB" + std::to_string(slotNum);
 		uint32_t cableData = GetCableData(cableName);
 		
 		return  ((cableData >> 28) & 0x0f);
@@ -167,3 +157,4 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 } // namespace manager
 } // namespace cable
 } // namespace phosphor
+
