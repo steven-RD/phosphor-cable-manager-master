@@ -44,26 +44,19 @@ class Cable : public CableInherit
 	Cable& operator=(Cable&&) = delete;
 	~Cable();	
     Cable(sdbusplus::bus::bus& bus, const char* objPath, const uint32_t cableNum) :
-        CableInherit(bus, objPath, true), fp(NULL) { 
-		
-		if(Open() == -1) {
-			std::cerr << "Open error!" << std::endl;
-		}
+        CableInherit(bus, objPath, true) { 
 		
 		slotAddr(cableNum);
 		emit_object_added();
     };
 	
-	
-	
-	int Open();
+		
 	uint32_t GetCableData(const std::string& cableName);
 	std::pair<std::string, int> Split(string& info, const string& pattern);
-	void Close();
 	
 	uint32_t cableType() ;
 	uint32_t present() ;
-	uint32_t linkSpeed() ;
+	uint32_t linkStatus() ;
 	uint32_t linkWidth() ;
 	uint32_t linkActive() ;
 	uint32_t partitionID() ;
@@ -74,8 +67,6 @@ class Cable : public CableInherit
 
   private:
   
-	FILE* fp;
-	
     /** @brief Persistent sdbusplus DBus bus connection. **/
     //sdbusplus::bus::bus& bus;
 	
