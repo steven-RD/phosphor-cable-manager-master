@@ -31,58 +31,55 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 	
 	uint32_t Cable::GetCableData(const std::string& cableName) {
 
-		char* line = NULL;
-		uint32_t len = 0;
-		std::vector<std::string> value;
-		std::map<std::string, std::string> cableInfo;
-		std::map<std::string, std::string>::iterator iter; 
+		char line[128] = {0};
+		std::pair<std::string, uint32_t> oneCable;
+		std::map<std::string, uint32_t> cableInfo;
+		std::map<std::string, uint32_t>::iterator iter; 
 		
-		//while(getline(fp, line)) {
-		while(getline(&line, &len, fp) != -1) {
+		while(NULL != fgets(line, sizeof(line), fp)) {
 			
 			std::string lineStr = line;
 			if(lineStr.substr(0, 3) == "CAB") {
-				value = Split(lineStr, ":");
-				cableInfo.insert(make_pair(value.front(), value.back()));
+				oneCable = Split(lineStr, ":");
+				cableInfo.insert(oneCable);
 			}
 		}
 		
-		if(line != NULL) {
-			free(line);	
-			line = NULL;
-		}
-		
-
 		if((iter = cableInfo.find(cableName)) == cableInfo.end()) {
-			std::cerr << "CableInformation not exit!" << std::endl;
+			std::cout << "not find" << cableName << std::endl;
 			return 0;
 		} 
 		
-		uint32_t data = 0;
-		stringstream ss;
-		ss << iter->second;
-		ss >> data;
-		ss.clear();
-		
-		return data;
+		return iter->second;
 	}
 	
 	
-	std::vector<std::string> Cable::Split(std::string& info, const std::string& pattern) {		
-		std::vector<std::string> value;
+	std::pair<std::string, int> Cable::Split(std::string& info, const std::string& pattern) {		
+	
+		std::string name;
+		int value = 0;
+		std::pair<std::string, int> cableInfo;
 		
 		if(!info.empty()) {	
 			char * strc = new char[strlen(info.c_str()) + 1];
 			strcpy(strc, info.c_str());
-			char* tmpStr = strtok(strc, pattern.c_str());			
+			char* tmpStr = strtok(strc, pattern.c_str());	
 			while(tmpStr != NULL) {
-				value.push_back(std::string(tmpStr));
+				string str = tmpStr;
+				if(str.substr(0, 3) == "CAB"){
+					name = tmpStr;
+				} else {
+					sscanf(tmpStr, "%x", &value); 
+				}
+				
 				tmpStr = strtok(NULL, pattern.c_str());
 			}
+			
+			cableInfo = make_pair(name, value);
 			delete[] strc;
 		}
 		
-		return value;
+		return cableInfo;
 	}
 	
 	uint32_t Cable::cableType() {
