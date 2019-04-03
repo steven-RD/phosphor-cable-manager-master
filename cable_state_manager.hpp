@@ -55,14 +55,14 @@ class Cable : public CableInherit
 	std::pair<std::string, uint32_t> Split(string& info, const string& pattern) const;
 	
 	uint32_t cableType() const override;
-	//uint32_t present()  const override;
-	//uint32_t linkStatus() const override;
-	//uint32_t linkWidth() const override;
-	//uint32_t linkActive() const override;
-	//uint32_t partitionID() const override;
-	//uint32_t invalid() const override;
-	//uint32_t uspDsp() const override;
-	//uint32_t status() const override;
+	uint32_t present()  const override;
+	uint32_t linkStatus() const override;
+	uint32_t linkWidth() const override;
+	uint32_t linkActive() const override;
+	uint32_t partitionID() const override;
+	uint32_t invalid() const override;
+	uint32_t uspDsp() const override;
+	uint32_t status() const override;
 	
 
   private:
@@ -76,4 +76,5 @@ class Cable : public CableInherit
 } // namespace manager
 } // namespace Cable
 } // namespace phosphor
+
 
