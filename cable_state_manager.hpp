@@ -1,4 +1,5 @@
 
+
 #include <iostream>
 #include <sstream>
 #include <vector>
@@ -57,7 +58,7 @@ class Cable : public CableInherit
 	
 	int Open();
 	uint32_t GetCableData(const std::string& cableName);
-	vector<string> Split(string& info, const string& pattern);
+	std::pair<std::string, int> Split(string& info, const string& pattern);
 	void Close();
 	
 	uint32_t cableType() ;
@@ -84,3 +85,4 @@ class Cable : public CableInherit
 } // namespace manager
 } // namespace Cable
 } // namespace phosphor
+
