@@ -51,18 +51,18 @@ class Cable : public CableInherit
     };
 	
 		
-	uint32_t GetCableData(const std::string& cableName);
-	std::pair<std::string, uint32_t> Split(string& info, const string& pattern);
+	uint32_t GetCableData(const std::string& cableName) const;
+	std::pair<std::string, uint32_t> Split(string& info, const string& pattern) const;
 	
 	uint32_t cableType() const override;
-	uint32_t present() const override;
-	uint32_t linkStatus() const override;
-	uint32_t linkWidth() const override;
-	uint32_t linkActive() const override;
-	uint32_t partitionID() const override;
-	uint32_t invalid() const override;
-	uint32_t uspDsp() const override;
-	uint32_t status() const override;
+	//uint32_t present()  const override;
+	//uint32_t linkStatus() const override;
+	//uint32_t linkWidth() const override;
+	//uint32_t linkActive() const override;
+	//uint32_t partitionID() const override;
+	//uint32_t invalid() const override;
+	//uint32_t uspDsp() const override;
+	//uint32_t status() const override;
 	
 
   private:
