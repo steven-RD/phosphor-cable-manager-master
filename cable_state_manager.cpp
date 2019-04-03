@@ -73,7 +73,7 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 		return cableInfo;
 	}
 	
-	uint32_t Cable::cableType() {
+	uint32_t Cable::cableType() const {
 		
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
 		std::string cableName = "CAB" + std::to_string(slotNum);
@@ -82,7 +82,7 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 		return  (cableData & 0x07);
 	}
 
-	uint32_t Cable::present() {
+/*	uint32_t Cable::present() {
 
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
 		std::string cableName = "CAB" + std::to_string(slotNum);
@@ -153,8 +153,10 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 		
 		return  ((cableData >> 28) & 0x0f);
 	}
+*/
 
 } // namespace manager
 } // namespace cable
 } // namespace phosphor
+
 
