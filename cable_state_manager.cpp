@@ -73,87 +73,191 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 		return cableInfo;
 	}
 	
-	uint32_t Cable::cableType() const {
+	std::string Cable::cableType() const {
 		
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
-		const std::string cableName = "CAB" + std::to_string(slotNum);
+		std::string cableName = "CAB" + slotNum;
 		uint32_t cableData =  GetCableData(cableName);
-				
-		return  (cableData & 0x07);
+		
+		std::string cabType;
+		uint32_t result = (cableData & 0x07);
+		if(result == 2) {
+			cabType = "defalut";
+		} else {
+			cabType = "reserved";
+		}
+		return  cabType;
 	}
-
-	uint32_t Cable::present() const {
+	
+	std::string Cable::present() const {
 
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
-		std::string cableName = "CAB" + std::to_string(slotNum);
+		std::string cableName = "CAB" + slotNum;
 		uint32_t cableData = GetCableData(cableName);		
 		
-		return  ((cableData >> 7) & 0x01);
+		std::string cabPresent;
+		uint32_t result = ((cableData >> 7) & 0x01);
+		if(result == 0) {
+			cabPresent = "absent";
+		} else {
+			cabPresent = "present";
+		}
+		
+		return  cabPresent;
 	}
 	
-	uint32_t Cable::linkStatus() const {
+	std::string Cable::linkStatus() const {
 		
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
-		std::string cableName = "CAB" + std::to_string(slotNum);
+		std::string cableName = "CAB" + slotNum;
 		uint32_t cableData = GetCableData(cableName);
 		
-		return  ((cableData >> 8) & 0x07);
+		std::string linkSt;
+		uint32_t result = ((cableData >> 8) & 0x07);
+		
+		switch(result) {
+			case 0:
+				linkSt = "link ok";
+				break;
+			case 1:
+				linkSt = "absent";
+				break;
+			case 2:
+				linkSt = "link fail";
+				break;
+			case 3:
+				linkSt = "not link";
+				break;
+			case 4:
+				linkSt = "status value invalid";
+				break;
+			default:
+				break;
+		}
+		
+		return  linkSt;
 	}
 	
-	uint32_t Cable::linkWidth() const {
+	std::string Cable::linkWidth() const {
 		
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
-		std::string cableName = "CAB" + std::to_string(slotNum);
+		std::string cableName = "CAB" + slotNum;
 		uint32_t cableData =  GetCableData(cableName);		
 		
-		return  ((cableData >> 11) & 0x0f);
+		std::string linkWd;
+		uint32_t result = ((cableData >> 11) & 0x0f);
+		
+		switch(result) {
+			case 0:
+				linkWd = "not link";
+				break;
+			case 1:
+				linkWd = "x1.";
+				break;
+			case 2:
+				linkWd = "x2.";
+				break;
+			case 3:
+				linkWd = "x4.";
+				break;
+			case 4:
+				linkWd = "x8.";
+				break;
+			case 5:
+				linkWd = "x12.";
+				break;
+			case 6:
+				linkWd = "x16.";
+				break;
+			case 7:
+				linkWd = "x32.";
+				break;
+			case 8:
+				linkWd = "Unknow.";
+				break;
+			default:
+				break;
+		}
+		
+		return  linkWd;
 	}
 	
-	uint32_t Cable::linkActive() const {
+	std::string Cable::linkActive() const {
 		
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
-		std::string cableName = "CAB" + std::to_string(slotNum);
+		std::string cableName = "CAB" + slotNum;
 		uint32_t cableData =  GetCableData(cableName);
 		
-		return  ((cableData >> 15) & 0x01);
+		std::string linkAct;
+		uint32_t result = ((cableData >> 15) & 0x01);
+		if(result == 1) {
+			linkAct = "active";
+		} else {
+			linkAct = "not active";
+		}
+		
+		return  linkAct;
 	}
 
 	uint32_t Cable::partitionID() const {
 		
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
-		std::string cableName = "CAB" + std::to_string(slotNum);
+		std::string cableName = "CAB" + slotNum;
 		uint32_t cableData = GetCableData(cableName);
 		
 		return  ((cableData >> 16) & 0x0f);
 	}
 	
-	uint32_t Cable::invalid() const {
+	std::string Cable::invalid() const {
 		
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
-		std::string cableName = "CAB" + std::to_string(slotNum);
+		std::string cableName = "CAB" + slotNum;
 		uint32_t cableData = GetCableData(cableName);
 		
-		return  ((cableData >> 20) & 0x0f);
+		std::string valid;
+		uint32_t result = ((cableData >> 20) & 0x0f);
+		if(result == 0) {
+			valid = "physical port is valid in partition.";
+		} else {
+			valid = "physical port is invalid in partition.";
+		}
+		return valid;
 	}
 	
-	uint32_t Cable::uspDsp() const {
+	std::string Cable::uspDsp() const {
 		
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
-		std::string cableName = "CAB" + std::to_string(slotNum);
+		std::string cableName = "CAB" + slotNum;
 		uint32_t cableData = GetCableData(cableName);
 
-		return  ((cableData >> 24) & 0x0f);
+		std::string uspOrDsp;
+		uint32_t result = ((cableData >> 24) & 0x0f);
+		if(result == 1) {
+			uspOrDsp = "upstream port";
+		} else if (result == 2) {
+			uspOrDsp = "downstream port";
+		} else {
+			uspOrDsp = "fail or abnormal";
+		}
+		
+		return uspOrDsp;
 	}
 
-	uint32_t Cable::status() const {
+	std::string Cable::status() const {
 
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
-		std::string cableName = "CAB" + std::to_string(slotNum);
+		std::string cableName = "CAB" + slotNum;
 		uint32_t cableData = GetCableData(cableName);
 		
-		return  ((cableData >> 28) & 0x0f);
+		std::string state;
+		uint32_t result =  ((cableData >> 28) & 0x0f);
+		if(result == 0) {
+			state = "valid cable.";
+		} else {
+			state = "invalid cable.";
+		} 
+		return state;
 	}
-
 
 } // namespace manager
 } // namespace cable
