@@ -27,7 +27,7 @@ AS_IF([test "x$CABLE_BUSNAME" == "x"], [CABLE_BUSNAME="xyz.openbmc_project.Cable
 AC_DEFINE_UNQUOTED([CABLE_BUSNAME], ["$CABLE_BUSNAME"], [The Host DBus busname to own])
 
 AC_ARG_VAR(CABLE_OBJPATH, [The host state manager Dbus root])
-AS_IF([test "x$CABLE_OBJPATH" == "x"], [CABLE_OBJPATH="/xyz/openbmc_project/cables/cable"])
+AS_IF([test "x$CABLE_OBJPATH" == "x"], [CABLE_OBJPATH="/xyz/openbmc_project/cables"])
 AC_DEFINE_UNQUOTED([CABLE_OBJPATH], ["$CABLE_OBJPATH"], [The host state manager Dbus root])
 
 # Check for header files.
@@ -41,3 +41,4 @@ AC_DEFINE_UNQUOTED([CLASS_VERSION], [$CLASS_VERSION], [Class version to register
 
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
+
