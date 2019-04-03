@@ -15,7 +15,7 @@ namespace manager
 namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 
 	
-	uint32_t Cable::GetCableData(const std::string& cableName) {
+	uint32_t Cable::GetCableData(const std::string& cableName) const{
 
 		char line[128] = {0};
 		std::pair<std::string, uint32_t> oneCable;
@@ -45,7 +45,7 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 	}
 	
 	
-	std::pair<std::string, uint32_t> Cable::Split(std::string& info, const std::string& pattern) {		
+	std::pair<std::string, uint32_t> Cable::Split(std::string& info, const std::string& pattern) const{		
 	
 		std::string name;
 		uint32_t value = 0;
