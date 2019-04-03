@@ -52,7 +52,7 @@ class Cable : public CableInherit
 	
 		
 	uint32_t GetCableData(const std::string& cableName);
-	std::pair<std::string, int> Split(string& info, const string& pattern);
+	std::pair<std::string, uint32_t> Split(string& info, const string& pattern);
 	
 	uint32_t cableType() ;
 	uint32_t present() ;
