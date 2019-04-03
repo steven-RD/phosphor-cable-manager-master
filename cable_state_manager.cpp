@@ -76,7 +76,7 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 	uint32_t Cable::cableType() const {
 		
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
-		cost std::string cableName = "CAB" + std::to_string(slotNum);
+		const std::string cableName = "CAB" + std::to_string(slotNum);
 		uint32_t cableData =  GetCableData(cableName);
 				
 		return  (cableData & 0x07);
