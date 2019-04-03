@@ -86,7 +86,7 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 		} else {
 			cabType = "reserved";
 		}
-		return  cabType;
+		return (cabType);
 	}
 	
 	std::string Cable::present() const {
@@ -103,7 +103,7 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 			cabPresent = "present";
 		}
 		
-		return  cabPresent;
+		return (cabPresent);
 	}
 	
 	std::string Cable::linkStatus() const {
@@ -135,7 +135,7 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 				break;
 		}
 		
-		return  linkSt;
+		return (linkSt);
 	}
 	
 	std::string Cable::linkWidth() const {
@@ -179,7 +179,7 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 				break;
 		}
 		
-		return  linkWd;
+		return (linkWd);
 	}
 	
 	std::string Cable::linkActive() const {
@@ -196,7 +196,7 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 			linkAct = "not active";
 		}
 		
-		return  linkAct;
+		return (linkAct);
 	}
 
 	uint32_t Cable::partitionID() const {
@@ -221,7 +221,7 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 		} else {
 			valid = "physical port is invalid in partition.";
 		}
-		return valid;
+		return (valid);
 	}
 	
 	std::string Cable::uspDsp() const {
@@ -240,7 +240,7 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 			uspOrDsp = "fail or abnormal";
 		}
 		
-		return uspOrDsp;
+		return (uspOrDsp);
 	}
 
 	std::string Cable::status() const {
@@ -250,15 +250,17 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 		uint32_t cableData = GetCableData(cableName);
 		
 		std::string state;
-		uint32_t result =  ((cableData >> 28) & 0x0f);
+		uint32_t result = ((cableData >> 28) & 0x0f);
 		if(result == 0) {
 			state = "valid cable.";
 		} else {
 			state = "invalid cable.";
-		} 
-		return state;
+		}
+		
+		return (state);
 	}
 
 } // namespace manager
 } // namespace cable
 } // namespace phosphor
+
