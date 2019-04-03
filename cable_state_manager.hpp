@@ -1,5 +1,4 @@
 
-
 #include <iostream>
 #include <sstream>
 #include <vector>
@@ -42,7 +41,8 @@ class Cable : public CableInherit
 	Cable& operator=(const Cable&) = delete;
 	Cable(Cable&&) = delete;
 	Cable& operator=(Cable&&) = delete;
-	~Cable();	
+	~Cable(){		
+	}	
     Cable(sdbusplus::bus::bus& bus, const char* objPath, const uint32_t cableNum) :
         CableInherit(bus, objPath, true) { 
 		
