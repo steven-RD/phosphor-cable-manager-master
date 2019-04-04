@@ -1,5 +1,4 @@
 
-
 #include <iostream>
 #include <sstream>
 #include <vector>
@@ -7,7 +6,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string>
-#include <mutex> 
 #include <functional>
 #include <sdbusplus/bus.hpp>
 #include <xyz/openbmc_project/Cable/Cable/server.hpp>
@@ -51,11 +49,7 @@ class Cable : public CableInherit
 		slotAddr(cableNum);
 		emit_object_added();
     };
-	
 		
-	uint32_t GetCableData(const std::string& cableName) const;
-	std::pair<std::string, uint32_t> Split(string& info, const string& pattern) const;
-	
 	std::string cableType() const override;
 	std::string present()  const override;
 	std::string linkStatus() const override;
@@ -74,8 +68,18 @@ class Cable : public CableInherit
 
 };
 
+class CableValue {
+
+public:
+
+	uint32_t GetCableData(const std::string& cableName) const;
+	std::pair<std::string, uint32_t> Split(string& info, const string& pattern) const;
+	
+};
+
 } // namespace manager
 } // namespace Cable
 } // namespace phosphor
+
 
 
