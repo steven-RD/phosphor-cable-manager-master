@@ -1,6 +1,3 @@
-
-#include <iostream>
-#include <sstream>
 #include <cassert>
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/exception.hpp>
@@ -17,9 +14,7 @@ namespace manager
 // When you see server:: you know we're referencing our base class
 namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 	
-	std::mutex mtx;
-	
-	uint32_t Cable::GetCableData(const std::string& cableName) const{
+	uint32_t CableValue::GetCableData(const std::string& cableName) const{
 
 		char line[128] = {0};
 		std::pair<std::string, uint32_t> oneCable;
@@ -52,7 +47,7 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 	}
 	
 	
-	std::pair<std::string, uint32_t> Cable::Split(std::string& info, const std::string& pattern) const{		
+	std::pair<std::string, uint32_t> CableValue::Split(std::string& info, const std::string& pattern) const{		
 	
 		std::string name;
 		uint32_t value = 0;
@@ -82,11 +77,10 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 	
 	std::string Cable::cableType() const {
 		
+		CableValue cableValue;
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
 		std::string cableName = "CAB" + slotNum;
-		mtx.try_lock();
-		uint32_t cableData =  GetCableData(cableName);
-		mtx.unlock();
+		uint32_t cableData =  cableValue.GetCableData(cableName);
 		
 		std::string cabType;
 		uint32_t result = (cableData & 0x07);
@@ -101,11 +95,10 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 	
 	std::string Cable::present() const {
 
+		CableValue cableValue;
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
 		std::string cableName = "CAB" + slotNum;
-		mtx.try_lock();
-		uint32_t cableData =  GetCableData(cableName);
-		mtx.unlock();	
+		uint32_t cableData =  cableValue.GetCableData(cableName);
 		
 		std::string cabPresent;
 		uint32_t result = ((cableData >> 7) & 0x01);
@@ -120,11 +113,10 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 	
 	std::string Cable::linkStatus() const {
 		
+		CableValue cableValue;
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
 		std::string cableName = "CAB" + slotNum;
-		mtx.try_lock();
-		uint32_t cableData =  GetCableData(cableName);
-		mtx.unlock();
+		uint32_t cableData =  cableValue.GetCableData(cableName);
 		
 		std::string linkSt;
 		uint32_t result = ((cableData >> 8) & 0x07);
@@ -154,11 +146,10 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 	
 	std::string Cable::linkWidth() const {
 		
+		CableValue cableValue;
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
 		std::string cableName = "CAB" + slotNum;
-		mtx.try_lock();
-		uint32_t cableData =  GetCableData(cableName);
-		mtx.unlock();
+		uint32_t cableData =  cableValue.GetCableData(cableName);
 		
 		std::string linkWd;
 		uint32_t result = ((cableData >> 11) & 0x0f);
@@ -200,11 +191,10 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 	
 	std::string Cable::linkActive() const {
 		
+		CableValue cableValue;
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
 		std::string cableName = "CAB" + slotNum;
-		mtx.try_lock();
-		uint32_t cableData =  GetCableData(cableName);
-		mtx.unlock();
+		uint32_t cableData =  cableValue.GetCableData(cableName);
 		
 		std::string linkAct;
 		uint32_t result = ((cableData >> 15) & 0x01);
@@ -219,22 +209,20 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 
 	uint32_t Cable::partitionID() const {
 		
+		CableValue cableValue;
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
 		std::string cableName = "CAB" + slotNum;
-		mtx.try_lock();
-		uint32_t cableData =  GetCableData(cableName);
-		mtx.unlock();
+		uint32_t cableData =  cableValue.GetCableData(cableName);
 		
 		return  ((cableData >> 16) & 0x0f);
 	}
 	
 	std::string Cable::invalid() const {
 		
+		CableValue cableValue;
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
 		std::string cableName = "CAB" + slotNum;
-		mtx.try_lock();
-		uint32_t cableData =  GetCableData(cableName);
-		mtx.unlock();
+		uint32_t cableData =  cableValue.GetCableData(cableName);
 		
 		std::string valid;
 		uint32_t result = ((cableData >> 20) & 0x0f);
@@ -248,11 +236,10 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 	
 	std::string Cable::uspDsp() const {
 		
+		CableValue cableValue;
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
 		std::string cableName = "CAB" + slotNum;
-		mtx.try_lock();
-		uint32_t cableData =  GetCableData(cableName);
-		mtx.unlock();
+		uint32_t cableData =  cableValue.GetCableData(cableName);
 
 		std::string uspOrDsp;
 		uint32_t result = ((cableData >> 24) & 0x0f);
@@ -269,11 +256,10 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 
 	std::string Cable::status() const {
 
+		CableValue cableValue;
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
 		std::string cableName = "CAB" + slotNum;
-		mtx.try_lock();
-		uint32_t cableData =  GetCableData(cableName);
-		mtx.unlock();
+		uint32_t cableData =  cableValue.GetCableData(cableName);
 		
 		std::string state;
 		uint32_t result = ((cableData >> 28) & 0x0f);
