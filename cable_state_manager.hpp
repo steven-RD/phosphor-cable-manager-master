@@ -1,5 +1,4 @@
 
-
 #include <iostream>
 #include <sstream>
 #include <vector>
@@ -7,6 +6,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string>
+#include <mutex> 
 #include <functional>
 #include <sdbusplus/bus.hpp>
 #include <xyz/openbmc_project/Cable/Cable/server.hpp>
@@ -70,7 +70,7 @@ class Cable : public CableInherit
   
     /** @brief Persistent sdbusplus DBus bus connection. **/
     //sdbusplus::bus::bus& bus;
-	
+	std::mutex mtx;
 
 };
 
