@@ -73,7 +73,7 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 		return cableInfo;
 	}
 	
-	std::string Cable::cableType() const {
+	/*std::string Cable::cableType() const {
 		
 		auto slotNum = sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr();
 		std::string cableName = "CAB" + slotNum;
@@ -258,7 +258,7 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 		}
 		
 		return (state);
-	}
+	}*/
 
 } // namespace manager
 } // namespace cable
