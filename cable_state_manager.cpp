@@ -36,7 +36,8 @@ namespace server = sdbusplus::xyz::openbmc_project::Cable::server;
 		}
 		
 		if((iter = cableInfo.find(cableName)) == cableInfo.end()) {
-			std::cout << "not find" << cableName << std::endl;
+			std::cout << "not find" << cableName << std::endl;			
+			pclose(fp);
 			return 0;
 		}
 		
