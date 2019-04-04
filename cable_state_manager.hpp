@@ -46,7 +46,7 @@ class Cable : public CableInherit
     Cable(sdbusplus::bus::bus& bus, const char* objPath, const uint32_t cableNum) :
         CableInherit(bus, objPath, true) { 
 		
-		slotAddr(cableNum);
+		sdbusplus::xyz::openbmc_project::Cable::server::Cable::slotAddr(cableNum);
 		emit_object_added();
     };
 		
