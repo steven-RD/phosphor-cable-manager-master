@@ -24,8 +24,6 @@ using CableInherit = sdbusplus::server::object::object<
 	
 using namespace std;
 
-std::mutex mtx;
-
 /** @class Cable
  *  @brief OpenBMC Cable state management implementation.
  *  @details A concrete implementation for xyz.openbmc_project.State.Cable
