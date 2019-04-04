@@ -26,5 +26,5 @@ int main(int argc, char**)
         bus.wait();
     }
 
-    exit(EXIT_SUCCESS);
+    return 0;
 }
