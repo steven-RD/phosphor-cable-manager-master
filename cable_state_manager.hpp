@@ -1,4 +1,5 @@
 
+
 #include <iostream>
 #include <sstream>
 #include <vector>
@@ -22,6 +23,8 @@ using CableInherit = sdbusplus::server::object::object<
     sdbusplus::xyz::openbmc_project::Cable::server::Cable>;
 	
 using namespace std;
+
+std::mutex mtx;
 
 /** @class Cable
  *  @brief OpenBMC Cable state management implementation.
@@ -70,7 +73,6 @@ class Cable : public CableInherit
   
     /** @brief Persistent sdbusplus DBus bus connection. **/
     //sdbusplus::bus::bus& bus;
-	std::mutex mtx;
 
 };
 
